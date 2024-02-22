@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/valtlfelipe/go-api/src/db"
+	"github.com/valtlfelipe/go-api/pkg/db"
 )
 
 type Task struct {

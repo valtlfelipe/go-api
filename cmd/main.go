@@ -6,9 +6,9 @@ import (
 	"net/http"
 
 	"github.com/redis/go-redis/v9"
-	"github.com/valtlfelipe/go-api/src/config"
-	"github.com/valtlfelipe/go-api/src/db"
-	"github.com/valtlfelipe/go-api/src/tasks"
+	"github.com/valtlfelipe/go-api/internal/tasks"
+	"github.com/valtlfelipe/go-api/pkg/config"
+	"github.com/valtlfelipe/go-api/pkg/db"
 )
 
 var ctx = context.Background()
