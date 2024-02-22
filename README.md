@@ -10,6 +10,7 @@ This is a simple example of writing an API in Go. I'm using this project to prac
 
 ### Required Environment Variables
 - `REDIS_URL`: The URL of the redis instance to connect to.
+- `PORT`: The http port the server will listen on. Defaults to `localhost:8090`.
 
 To get started with this API, follow these steps:
 

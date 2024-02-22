@@ -4,6 +4,10 @@ import (
 	"context"
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"github.com/redis/go-redis/v9"
 	"github.com/valtlfelipe/go-api/internal/tasks"
@@ -18,19 +22,49 @@ func main() {
 
 	mux := http.NewServeMux()
 
-	opt, err := redis.ParseURL(config.RedisURL)
+	// setup redis client
+	redisOpt, err := redis.ParseURL(config.RedisURL)
 	if err != nil {
 		panic(err)
 	}
-	client := redis.NewClient(opt)
+	redisClient := redis.NewClient(redisOpt)
+	dbClient := db.NewDB(ctx, redisClient)
 
-	dbClient := db.NewDB(ctx, client)
-
+	// setup routes and handlers
 	tasks.NewTasksService(mux, dbClient)
 
-	log.Println("Starting on :8090 ...")
+	// start the http server
+	log.Printf("Starting on %s ...\n", config.Port)
 
-	if err := http.ListenAndServe("localhost:8090", mux); err != nil {
-		panic(err)
+	srv := &http.Server{
+		Addr:    config.Port,
+		Handler: mux,
 	}
+
+	// Create a context that listens for the SIGINT and SIGTERM signals
+	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer stop()
+
+	// Start the server in a goroutine
+	go func() {
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Printf("Error starting server: %s\n", err)
+			os.Exit(1)
+		}
+	}()
+
+	// Wait for the context to be canceled (when SIGINT or SIGTERM is received)
+	<-ctx.Done()
+
+	// Create a deadline for the shutdown
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	// Shutdown the server gracefully
+	if err := srv.Shutdown(ctx); err != nil {
+		log.Printf("Error shutting down server: %s\n", err)
+		os.Exit(1)
+	}
+
+	log.Println("Server shutdown gracefully")
 }
