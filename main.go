@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"log"
 	"net/http"
 
 	"github.com/redis/go-redis/v9"
@@ -27,10 +28,9 @@ func main() {
 
 	tasks.NewTasksService(ctx, mux, dbClient)
 
-	err = http.ListenAndServe("localhost:8090", mux)
-	if err != nil {
+	log.Println("Starting on :8090 ...")
+
+	if err := http.ListenAndServe("localhost:8090", mux); err != nil {
 		panic(err)
 	}
-
-	// fmt.Println("Running on :8090")
 }
