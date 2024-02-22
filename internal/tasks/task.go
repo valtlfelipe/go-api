@@ -1,7 +1,6 @@
 package tasks
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 
@@ -14,7 +13,6 @@ type Task struct {
 }
 
 type TaskService struct {
-	ctx      context.Context
 	dbClient *db.DB
 }
 
@@ -22,8 +20,8 @@ func formatPath(id string) string {
 	return fmt.Sprintf("task.%v", id)
 }
 
-func NewTasksService(ctx context.Context, mux *http.ServeMux, dbClient *db.DB) {
-	service := &TaskService{ctx: ctx, dbClient: dbClient}
+func NewTasksService(mux *http.ServeMux, dbClient *db.DB) {
+	service := &TaskService{dbClient: dbClient}
 
 	mux.HandleFunc("GET /task/{id}", service.getHandler)
 }

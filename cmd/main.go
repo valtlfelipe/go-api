@@ -26,7 +26,7 @@ func main() {
 
 	dbClient := db.NewDB(ctx, client)
 
-	tasks.NewTasksService(ctx, mux, dbClient)
+	tasks.NewTasksService(mux, dbClient)
 
 	log.Println("Starting on :8090 ...")
 
