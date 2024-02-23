@@ -1,5 +1,5 @@
 # go-api
-[![Go](https://github.com/valtlfelipe/go-api/actions/workflows/go.yml/badge.svg?branch=main)](https://github.com/valtlfelipe/go-api/actions/workflows/go.yml)
+[![go-test](https://github.com/valtlfelipe/go-api/actions/workflows/go-test.yml/badge.svg?branch=main)](https://github.com/valtlfelipe/go-api/actions/workflows/go.yml)
 
 This is a simple example of writing an API in Go. I'm using this project to practice my knowledge of Go.
 
@@ -14,7 +14,7 @@ This is a simple example of writing an API in Go. I'm using this project to prac
 - `REDIS_URL`: (required) The URL of the redis instance to connect to.
 - `PORT`: The http port the server will listen on. Defaults to `localhost:8090`.
 
-To get started with this API, follow these steps:
+To get started with this repo, follow these steps:
 
 1. Clone the repository:
 
@@ -35,6 +35,8 @@ go mod tidy
 make run
 ```
 
+The API should now be running at `http://localhost:8090`.
+
 4. Run tests:
 
 ```sh
@@ -49,8 +51,6 @@ make test-coverage
 ```
 
 Test coverage files will be available inside `coverage/` folder.
-
-The API should now be running at `http://localhost:8090`.
 
 # API Endpoints
 
