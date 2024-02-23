@@ -6,6 +6,12 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
+// DBInterface defines the interface for the DB type
+type DBInterface interface {
+	Get(key string) string
+	Set(key string, value string)
+}
+
 type DB struct {
 	ctx         context.Context
 	redisClient *redis.Client
@@ -25,3 +31,6 @@ func (service *DB) Get(key string) string {
 func (service *DB) Set(key string, value string) {
 	service.redisClient.Set(service.ctx, key, value, 0)
 }
+
+// Ensure that DB implements DBInterface
+var _ DBInterface = (*DB)(nil)
