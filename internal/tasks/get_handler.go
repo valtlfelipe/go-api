@@ -11,22 +11,14 @@ func (service *TaskService) getHandler(w http.ResponseWriter, r *http.Request) {
 
 	id, err := uuid.Parse(r.PathValue("id"))
 	if err != nil {
-		httputil.RespondError(w, httputil.ResponseError{
-			Error:  "invalid uuid",
-			Status: http.StatusBadRequest,
-		})
+		httputil.RespondError(w, http.StatusBadRequest, "invalid uuid")
 		return
 	}
-
-	// service.dbClient.Set(formatPath(id.String()), "teste-123")
 
 	val := service.dbClient.Get(formatPath(id.String()))
 
 	if val == "" {
-		httputil.RespondError(w, httputil.ResponseError{
-			Error:  "not found",
-			Status: http.StatusNotFound,
-		})
+		httputil.RespondError(w, http.StatusNotFound, "not found")
 		return
 	}
 

@@ -10,7 +10,6 @@ import (
 )
 
 func TestRespondSuccess(t *testing.T) {
-	// req := httptest.NewRequest("GET", "http://example.com/foo", nil)
 	w := httptest.NewRecorder()
 
 	data := map[string]string{"foo": "bar"}
@@ -26,12 +25,8 @@ func TestRespondSuccess(t *testing.T) {
 
 func TestRespondError(t *testing.T) {
 
-	// req := httptest.NewRequest("GET", "http://example.com/foo", nil)
 	w := httptest.NewRecorder()
-	RespondError(w, ResponseError{
-		Error:  "invalid uuid",
-		Status: http.StatusBadRequest,
-	})
+	RespondError(w, http.StatusBadRequest, "invalid uuid")
 
 	resp := w.Result()
 	body, _ := io.ReadAll(resp.Body)
