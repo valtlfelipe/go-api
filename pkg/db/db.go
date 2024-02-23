@@ -17,7 +17,7 @@ type DB struct {
 	redisClient *redis.Client
 }
 
-func NewDB(ctx context.Context, redisClient *redis.Client) *DB {
+func NewDB(ctx context.Context, redisClient *redis.Client) DBInterface {
 	return &DB{
 		ctx:         ctx,
 		redisClient: redisClient,
@@ -31,6 +31,3 @@ func (service *DB) Get(key string) string {
 func (service *DB) Set(key string, value string) {
 	service.redisClient.Set(service.ctx, key, value, 0)
 }
-
-// Ensure that DB implements DBInterface
-// var _ DBInterface = (*DB)(nil)
