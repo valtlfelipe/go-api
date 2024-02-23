@@ -1,4 +1,5 @@
 # go-api
+[![Go](https://github.com/valtlfelipe/go-api/actions/workflows/go.yml/badge.svg?branch=main)](https://github.com/valtlfelipe/go-api/actions/workflows/go.yml)
 
 This is a simple example of writing an API in Go. I'm using this project to practice my knowledge of Go.
 
