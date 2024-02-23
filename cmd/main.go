@@ -25,9 +25,17 @@ func main() {
 	// setup redis client
 	redisOpt, err := redis.ParseURL(config.RedisURL)
 	if err != nil {
-		panic(err)
+		log.Fatalf("Unable to parse redis URL: %s\n", err)
+		os.Exit(1)
 	}
 	redisClient := redis.NewClient(redisOpt)
+	redisPing := redisClient.Ping(ctx)
+
+	if redisPing.Val() != "PONG" {
+		log.Fatalf("Unable to connect to redis server: %s\n", redisPing)
+		os.Exit(1)
+	}
+
 	dbClient := db.NewDB(ctx, redisClient)
 
 	// setup routes and handlers
@@ -48,7 +56,7 @@ func main() {
 	// Start the server in a goroutine
 	go func() {
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Printf("Error starting server: %s\n", err)
+			log.Fatalf("Error starting server: %s\n", err)
 			os.Exit(1)
 		}
 	}()
@@ -62,7 +70,7 @@ func main() {
 
 	// Shutdown the server gracefully
 	if err := srv.Shutdown(ctx); err != nil {
-		log.Printf("Error shutting down server: %s\n", err)
+		log.Fatalf("Error shutting down server: %s\n", err)
 		os.Exit(1)
 	}
 
