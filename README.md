@@ -8,6 +8,7 @@ This is a simple example of writing an API in Go. I'm using this project to prac
 ### Requirements
 - Go version 1.22 or higher
 - [nodemon](https://www.npmjs.com/package/nodemon) package from npm (for development server)
+- Redis server. [Upstash](https://upstash.com/) is free 😉
 
 ### Environment Variables
 - `REDIS_URL`: (required) The URL of the redis instance to connect to.
