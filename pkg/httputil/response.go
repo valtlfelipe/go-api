@@ -13,7 +13,10 @@ func RespondSuccess(w http.ResponseWriter, response any) {
 
 	w.WriteHeader(http.StatusOK)
 
-	json.NewEncoder(w).Encode(response)
+	err := json.NewEncoder(w).Encode(response)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
 
 // RespondError sends a JSON response with the specified status code to the client.
@@ -24,5 +27,8 @@ func RespondError(w http.ResponseWriter, status int, error string) {
 
 	w.WriteHeader(status)
 
-	json.NewEncoder(w).Encode(map[string]string{"error": error})
+	err := json.NewEncoder(w).Encode(map[string]string{"error": error})
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
