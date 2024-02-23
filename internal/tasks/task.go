@@ -14,14 +14,14 @@ type Task struct {
 }
 
 type TaskService struct {
-	dbClient *db.DB
+	dbClient db.DBInterface
 }
 
 func formatPath(id string) string {
 	return fmt.Sprintf("task.%v", id)
 }
 
-func NewTasksService(mux *http.ServeMux, dbClient *db.DB) {
+func NewTasksService(mux *http.ServeMux, dbClient db.DBInterface) {
 	service := &TaskService{dbClient: dbClient}
 
 	mux.HandleFunc("GET /task/{id}", service.getHandler)
