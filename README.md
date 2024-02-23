@@ -9,8 +9,8 @@ This is a simple example of writing an API in Go. I'm using this project to prac
 - Go version 1.22 or higher
 - [nodemon](https://www.npmjs.com/package/nodemon) package from npm (for development server)
 
-### Required Environment Variables
-- `REDIS_URL`: The URL of the redis instance to connect to.
+### Environment Variables
+- `REDIS_URL`: (required) The URL of the redis instance to connect to.
 - `PORT`: The http port the server will listen on. Defaults to `localhost:8090`.
 
 To get started with this API, follow these steps:
@@ -34,8 +34,54 @@ go mod tidy
 make run
 ```
 
+4. Run tests:
+
+```sh
+make test
+```
+
+5. Test coverage:
+
+```sh
+make test-coverage
+# open coverage/coverage.html
+```
+
+Test coverage files will be available inside `coverage/` folder.
+
 The API should now be running at `http://localhost:8090`.
 
 # API Endpoints
 
-_TODO_
+## Create a Task
+
+### Request
+
+- URL: `/tasks`
+- Method: `POST`
+- Headers:
+  - Content-Type: application/json
+
+#### Body
+
+```json
+{
+  "name": "Task Title"
+}
+```
+
+## Get a Task by Id
+
+### Request
+
+- URL: `/tasks/{id}`
+- Method: `GET`
+
+### Response
+
+```json
+{
+  "id": "578f2d5e-c4cc-4ea8-b98d-47690e8bb6a5",
+  "name": "Task Title"
+}
+```
