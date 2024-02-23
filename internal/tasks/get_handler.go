@@ -1,23 +1,36 @@
 package tasks
 
 import (
-	"encoding/json"
 	"net/http"
+
+	"github.com/google/uuid"
+	"github.com/valtlfelipe/go-api/pkg/httputil"
 )
 
 func (service *TaskService) getHandler(w http.ResponseWriter, r *http.Request) {
-	id := r.PathValue("id")
 
-	val := service.dbClient.Get(formatPath(id))
-
-	w.Header().Set("Content-Type", "application/json")
-
-	if val == "" {
-		w.WriteHeader(http.StatusNotFound)
+	id, err := uuid.Parse(r.PathValue("id"))
+	if err != nil {
+		httputil.RespondError(w, httputil.ResponseError{
+			Error:  "invalid uuid",
+			Status: http.StatusBadRequest,
+		})
 		return
 	}
 
-	json.NewEncoder(w).Encode(Task{
+	// service.dbClient.Set(formatPath(id.String()), "teste-123")
+
+	val := service.dbClient.Get(formatPath(id.String()))
+
+	if val == "" {
+		httputil.RespondError(w, httputil.ResponseError{
+			Error:  "not found",
+			Status: http.StatusNotFound,
+		})
+		return
+	}
+
+	httputil.RespondSuccess(w, Task{
 		Id:   id,
 		Name: val,
 	})
