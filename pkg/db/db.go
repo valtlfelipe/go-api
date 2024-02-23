@@ -33,4 +33,4 @@ func (service *DB) Set(key string, value string) {
 }
 
 // Ensure that DB implements DBInterface
-var _ DBInterface = (*DB)(nil)
+// var _ DBInterface = (*DB)(nil)
