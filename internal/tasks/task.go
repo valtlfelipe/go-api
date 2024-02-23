@@ -6,6 +6,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/valtlfelipe/go-api/pkg/db"
+	"github.com/valtlfelipe/go-api/pkg/httputil"
 )
 
 type Task struct {
@@ -24,5 +25,6 @@ func formatPath(id string) string {
 func NewTasksService(mux *http.ServeMux, dbClient db.DBInterface) {
 	service := &TaskService{dbClient: dbClient}
 
-	mux.HandleFunc("GET /task/{id}", service.getHandler)
+	httputil.WrapHandler(mux, "GET /tasks/{id}", service.getHandler)
+	httputil.WrapHandler(mux, "POST /tasks", service.postHandler)
 }
