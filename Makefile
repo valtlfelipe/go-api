@@ -8,7 +8,7 @@ test:
 	go test -v ./...
 
 build:
-	go build cmd/main.go
+	go build -o go-api cmd/main.go
 
 test-coverage:
 	mkdir -p coverage/

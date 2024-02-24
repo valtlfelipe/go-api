@@ -1,0 +1,24 @@
+name: go-deploy
+
+on:
+  push:
+    branches: ["main"]
+
+permissions:
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: "1.22"
+
+      - name: Deploy
+        run: |
+          docker build . --tag ghcr.io/valtlfelipe/go-api:latest
+          docker push ghcr.io/valtlfelipe/go-api:latest
