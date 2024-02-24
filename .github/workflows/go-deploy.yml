@@ -20,5 +20,6 @@ jobs:
 
       - name: Deploy
         run: |
+          echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
           docker build . --tag ghcr.io/valtlfelipe/go-api:latest
           docker push ghcr.io/valtlfelipe/go-api:latest
