@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Build the Go application
-RUN make build
+RUN CGO_ENABLED=0 make build
 
 # Use a lightweight base image
 FROM alpine:latest
@@ -26,4 +26,4 @@ EXPOSE 8090
 ENV PORT=:8090
 
 # Run the binary
-CMD ["./go-api"]
+ENTRYPOINT ["./go-api"]
