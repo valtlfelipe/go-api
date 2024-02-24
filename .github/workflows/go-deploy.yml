@@ -25,4 +25,4 @@ jobs:
         run: docker build . --tag ghcr.io/valtlfelipe/go-api:latest
 
       - name: Push Docker image
-        run: docker build . --tag ghcr.io/valtlfelipe/go-api:latest
+        run: docker push ghcr.io/valtlfelipe/go-api:latest
